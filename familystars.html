@@ -433,6 +433,24 @@
   }
   details.faq[open] summary::after { content: "−"; }
   details.faq p { margin: 10px 0 0; color: var(--ink-soft); }
+  details.faq ul {
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  details.faq ul li {
+    color: var(--ink-soft);
+    padding: 6px 0 6px 24px;
+    position: relative;
+  }
+  details.faq ul li::before {
+    content: "✕";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    color: #c4364a;
+    font-weight: 700;
+  }
 
   /* Footer */
   footer {
@@ -656,6 +674,21 @@
     <details class="faq">
       <summary>Is this a way to control my kid?</summary>
       <p>No. There is no monitoring, no screen-time blocking, no “strikes,” no nagging notifications. Family Stars only does what you and your kid decide it does, like a paper chart on the fridge used to. It is a shared little game, not a surveillance tool.</p>
+    </details>
+
+    <details class="faq">
+      <summary>What does this app not do?</summary>
+      <p>Family Stars is a reward chart, not a parental control tool. So you know exactly what you are getting:</p>
+      <ul>
+        <li>It does not block or limit screen time.</li>
+        <li>It does not lock your child’s phone.</li>
+        <li>It does not restrict, hide, or filter any other app.</li>
+        <li>It does not track your child’s location.</li>
+        <li>It does not monitor messages, calls, or browsing.</li>
+        <li>It does not send any data to a server. It cannot connect to the internet at all.</li>
+        <li>It does not nag your kid with notifications.</li>
+      </ul>
+      <p>You and your family decide what a star is worth, and you grant the actual rewards (extra screen time through your normal parental controls, a movie night, an ice cream) outside the app. The app’s only job is to keep score, fairly and visibly, so the rest of the conversation can happen the way conversations are supposed to.</p>
     </details>
 
     <details class="faq">
