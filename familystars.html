@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Family Stars: the fridge-style star chart, now on your family phones</title>
+<meta name="description" content="A simple star chart for families. Parents tap to give or take stars, kids redeem them for rewards. No accounts, no ads, no cloud. Works offline. One-time €1.49 on Google Play.">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta property="og:title" content="Family Stars: the star chart, now on your family phones">
+<meta property="og:description" content="Give a star for cleaning the room. A real reward for 30 stars. Yours: no accounts, no ads, no cloud. One-time €1.49.">
+<meta property="og:image" content="https://haideapps.github.io/familystars/01_parent_main.jpg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://haideapps.github.io/familystars.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://haideapps.github.io/familystars.html">
+<style>
+  *,
+  *::before,
+  *::after { box-sizing: border-box; }
+  :root {
+    --brand: #5B3FB8;
+    --brand-dark: #3F2A8A;
+    --brand-light: #EFEAFB;
+    --gold: #F5B400;
+    --green: #1B7F3A;
+    --green-dark: #155F2C;
+    --ink: #1f2937;
+    --ink-soft: #475569;
+    --muted: #64748b;
+    --line: #e5e7eb;
+    --bg: #fafafa;
+    --card: #ffffff;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: #0F5FB5; }
+
+  /* Layout */
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+  .narrow { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+
+  /* Hero */
+  .hero {
+    background:
+      radial-gradient(1100px 500px at 80% -10%, rgba(245,180,0,0.18), transparent 60%),
+      linear-gradient(160deg, #2a1c66 0%, #5B3FB8 60%, #7C5AE0 100%);
+    color: white;
+    padding: 56px 0 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 36px;
+    align-items: center;
+  }
+  .hero h1 {
+    font-size: 2.6em;
+    line-height: 1.15;
+    margin: 0 0 16px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .hero .star-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.12);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.85em;
+    margin-bottom: 18px;
+    backdrop-filter: blur(6px);
+  }
+  .hero .star-badge .s { color: var(--gold); }
+  .hero p.lede {
+    font-size: 1.2em;
+    color: rgba(255,255,255,0.92);
+    margin: 0 0 26px;
+    max-width: 540px;
+  }
+  .hero .price {
+    color: rgba(255,255,255,0.78);
+    font-size: 0.95em;
+    margin-top: 12px;
+  }
+  .hero .price strong { color: var(--gold); }
+  .hero-cta-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .gp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: #000;
+    color: white;
+    padding: 12px 22px 12px 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.12);
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+  .gp-btn:hover { transform: translateY(-1px); background: #111; }
+  .gp-btn .gp-icon {
+    width: 28px; height: 28px;
+    display: inline-block;
+  }
+  .gp-btn .gp-label { display: flex; flex-direction: column; line-height: 1.1; }
+  .gp-btn .gp-label small { font-size: 0.75em; opacity: 0.85; }
+  .gp-btn .gp-label span { font-size: 1.15em; font-weight: 700; letter-spacing: 0.2px; }
+
+  .secondary-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.18);
+  }
+  .secondary-btn:hover { background: rgba(255,255,255,0.16); }
+
+  .fb-note {
+    margin-top: 16px;
+    font-size: 0.9em;
+    color: rgba(255,255,255,0.78);
+    background: rgba(0,0,0,0.18);
+    border-left: 3px solid var(--gold);
+    padding: 10px 14px;
+    border-radius: 8px;
+    max-width: 520px;
+  }
+  .fb-note strong { color: white; }
+
+  /* Hero phone */
+  .phone-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 28px;
+    padding: 18px;
+    position: relative;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.45);
+  }
+  .phone-card .phone-frame {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px -12px rgba(0,0,0,0.5);
+  }
+  .phone-card .phone-frame img { width: 100%; display: block; }
+  .phone-card .pill {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gold);
+    color: #2a1c00;
+    font-weight: 700;
+    font-size: 0.85em;
+    padding: 6px 14px;
+    border-radius: 999px;
+    white-space: nowrap;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  }
+
+  /* Sections */
+  section { padding: 64px 0; }
+  section.alt { background: white; }
+  h2 {
+    font-size: 1.9em;
+    margin: 0 0 14px;
+    color: var(--ink);
+    letter-spacing: -0.3px;
+  }
+  h2 .accent { color: var(--brand); }
+  .eyebrow {
+    display: inline-block;
+    color: var(--brand);
+    font-weight: 700;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .lead {
+    font-size: 1.1em;
+    color: var(--ink-soft);
+    max-width: 680px;
+    margin: 0 0 36px;
+  }
+
+  /* Promise grid */
+  .promise-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 8px;
+  }
+  .promise {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid var(--line);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .promise .ico {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: grid; place-items: center;
+    background: var(--brand-light);
+    color: var(--brand);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .promise h3 {
+    margin: 0 0 6px;
+    font-size: 1.15em;
+    color: var(--ink);
+  }
+  .promise p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.97em;
+  }
+
+  /* Steps */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-top: 12px;
+  }
+  .step {
+    background: white;
+    border-radius: 18px;
+    padding: 22px;
+    border: 1px solid var(--line);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+  }
+  .step .num {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--brand);
+    color: white;
+    display: grid; place-items: center;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .step h3 {
+    margin: 0 0 6px;
+    color: var(--ink);
+    font-size: 1.15em;
+  }
+  .step p {
+    margin: 0 0 16px;
+    color: var(--ink-soft);
+    font-size: 0.97em;
+  }
+  .step .shot {
+    margin-top: auto;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #f6f4ff;
+    aspect-ratio: 9 / 19.5;
+  }
+  .step .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+
+  /* Two views */
+  .two-up {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-top: 8px;
+  }
+  .view {
+    background: white;
+    border-radius: 18px;
+    padding: 22px;
+    border: 1px solid var(--line);
+  }
+  .view h3 {
+    margin: 0 0 4px;
+    font-size: 1.2em;
+    color: var(--brand);
+  }
+  .view .sub { color: var(--muted); font-size: 0.9em; margin-bottom: 14px; }
+  .view .shot {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #f6f4ff;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+  .view .shot img { width: 100%; display: block; }
+
+  /* Privacy block */
+  .privacy-block {
+    background: linear-gradient(135deg, #1c1342 0%, #5B3FB8 100%);
+    color: white;
+    border-radius: 22px;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 32px;
+    align-items: center;
+  }
+  .privacy-block h2 { color: white; margin-top: 0; }
+  .privacy-block .lead { color: rgba(255,255,255,0.86); margin-bottom: 18px; }
+  .pchips {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;
+  }
+  .pchip {
+    background: rgba(255,255,255,0.12);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.88em;
+    border: 1px solid rgba(255,255,255,0.18);
+  }
+  .privacy-block .phone-frame {
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px -12px rgba(0,0,0,0.5);
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  /* Features */
+  ul.features { padding: 0; list-style: none; margin: 0; }
+  ul.features li {
+    margin: 10px 0;
+    padding: 14px 16px 14px 48px;
+    position: relative;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+  }
+  ul.features li:before {
+    content: "★";
+    color: var(--gold);
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.4em;
+    line-height: 1;
+  }
+  ul.features li strong { color: var(--ink); }
+
+  /* Final CTA */
+  .final-cta {
+    background: linear-gradient(135deg, #fff8e8 0%, #fefcf5 100%);
+    border: 1px solid #f5deb1;
+    border-radius: 22px;
+    padding: 40px;
+    text-align: center;
+  }
+  .final-cta h2 { margin-top: 0; }
+  .final-cta .price-row {
+    font-size: 1.05em;
+    color: var(--ink-soft);
+    margin: 12px 0 22px;
+  }
+  .final-cta .price-row strong { color: var(--ink); font-size: 1.2em; }
+  .final-cta .gp-btn { background: var(--green); border-color: transparent; }
+  .final-cta .gp-btn:hover { background: var(--green-dark); }
+  .final-cta .fb-explainer {
+    margin-top: 18px;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 18px;
+    color: var(--ink-soft);
+    font-size: 0.93em;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+  }
+  .final-cta .fb-explainer strong { color: var(--ink); }
+  .final-cta .fb-explainer .fb-icon {
+    color: #1877F2;
+    font-weight: 800;
+    margin-right: 6px;
+  }
+
+  /* FAQ */
+  details.faq {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin: 10px 0;
+  }
+  details.faq summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--ink);
+    list-style: none;
+    position: relative;
+    padding-right: 24px;
+  }
+  details.faq summary::-webkit-details-marker { display: none; }
+  details.faq summary::after {
+    content: "+";
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: var(--brand);
+    font-size: 1.3em;
+    line-height: 1;
+  }
+  details.faq[open] summary::after { content: "−"; }
+  details.faq p { margin: 10px 0 0; color: var(--ink-soft); }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 32px 20px 60px;
+    color: #94a3b8;
+    font-size: 0.9em;
+  }
+  footer a { color: #0F5FB5; }
+
+  /* Mobile */
+  @media (max-width: 820px) {
+    .hero { padding: 40px 0 24px; }
+    .hero h1 { font-size: 2.05em; }
+    .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+    .phone-card { max-width: 360px; margin: 0 auto; }
+    .promise-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; }
+    .two-up { grid-template-columns: 1fr; }
+    .privacy-block { grid-template-columns: 1fr; padding: 28px; }
+    .privacy-block .phone-frame { max-width: 240px; }
+    section { padding: 44px 0; }
+    h2 { font-size: 1.55em; }
+    .final-cta { padding: 28px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="star-badge"><span class="s">★</span> Family Stars on Google Play</span>
+      <h1>The fridge-style star chart, now on your family phones.</h1>
+      <p class="lede">Remember the paper chart on the fridge, where every star was a real conversation about what your kid did that day? Family Stars brings the same chart onto family phones and keeps the talk where it belongs: at the dinner table, on a walk, on the couch. Not in a chat window. Not on a server. Not in the cloud.</p>
+      <div class="hero-cta-row">
+        <a class="gp-btn" href="https://play.google.com/store/apps/details?id=ee.haide.familystars">
+          <svg class="gp-icon" viewBox="0 0 512 512" aria-hidden="true">
+            <path fill="#EA4335" d="M325.3 234.3L104.6 13l280.8 161-60.1 60.3z"/>
+            <path fill="#FBBC04" d="M385.4 174L104.6 13c-5.2-3-9.9-3.5-13.4-2.1l229.7 229.7 64.5-66.6z"/>
+            <path fill="#34A853" d="M91.2 10.9c-3.5 1.4-6.5 4.4-8.5 8.6V492.5c2 4.2 5 7.2 8.5 8.6l229.7-249.6L91.2 10.9z"/>
+            <path fill="#4285F4" d="M325.3 277.7L104.6 499l280.8-161-60.1-60.3z"/>
+          </svg>
+          <span class="gp-label"><small>GET IT ON</small><span>Google Play</span></span>
+        </a>
+        <a class="secondary-btn" href="#how">See how it works ↓</a>
+      </div>
+      <p class="price">One-time <strong>€1.49</strong> · No subscriptions · No in-app purchases</p>
+      <div class="fb-note">
+        <strong>Came from Facebook?</strong> Facebook ads cannot open the Google Play app directly, so they send you here first. Tap the button above and you will land straight in the Play Store.
+      </div>
+    </div>
+    <div>
+      <div class="phone-card">
+        <div class="pill">★ Real screen, real app</div>
+        <div class="phone-frame">
+          <img src="familystars/01_parent_main.jpg" alt="Family Stars parent home screen with Paul and Mary, plus and minus star buttons" loading="eager">
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- WHY PARENTS LOVE IT -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">For the parent who is tired of nagging</span>
+    <h2>Less arguing. <span class="accent">More “well done.”</span></h2>
+    <p class="lead">A small reward, given at the right moment, beats ten reminders. Family Stars makes that moment easy. Tap once when your kid actually does the thing, type what it was for, done.</p>
+
+    <div class="promise-grid">
+      <div class="promise">
+        <div class="ico">★</div>
+        <h3>You stay in charge.</h3>
+        <p>You decide what earns a star and what a star is worth. No app telling you what counts as “good behaviour.”</p>
+      </div>
+      <div class="promise">
+        <div class="ico">⏱</div>
+        <h3>Takes ten seconds.</h3>
+        <p>Open the app, tap +Star, type “cleaned room.” That is the whole flow. Kids see it instantly on their phone.</p>
+      </div>
+      <div class="promise">
+        <div class="ico">🔒</div>
+        <h3>Your family stays yours.</h3>
+        <p>No accounts. No cloud. No ads. No tracking. Stars live on your phones and nowhere else.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" class="alt">
+  <div class="wrap">
+    <span class="eyebrow">How it works</span>
+    <h2>Three little screens. <span class="accent">One calmer week.</span></h2>
+    <p class="lead">Set up rewards together once. After that, parents tap to reward, kids watch their stars grow. That is it.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <h3>You set the rewards.</h3>
+        <p>30 minutes of phone time for 5 stars. Movie night for 30. Pick what fits your family.</p>
+        <div class="shot"><img src="familystars/03_rewards.jpg" alt="Family rewards list with 30 min phone time for 5 stars, pick dinner tonight for 10 stars, movie night for 30 stars" loading="lazy"></div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h3>One tap when they do well.</h3>
+        <p>Choose how many stars, write what it was for. The reason shows up in their history, so the moment sticks.</p>
+        <div class="shot"><img src="familystars/02_add_stars.jpg" alt="Add stars to Paul screen, two stars for cleaned your room, big green Confirm button" loading="lazy"></div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h3>Kids see how close they are.</h3>
+        <p>Their own screen shows every reward with a progress bar. The “almost there” feeling does the rest.</p>
+        <div class="shot"><img src="familystars/05_child_rewards.jpg" alt="My Rewards on child phone, 30 min phone time, pick dinner tonight, movie night with progress bar 11 of 30" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TWO VIEWS -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">Two views, one family</span>
+    <h2>What you see. <span class="accent">What they see.</span></h2>
+    <p class="lead">Parent phones get the controls. Kid phones get the encouragement. Nobody can mess with anybody else’s stars by accident.</p>
+
+    <div class="two-up">
+      <div class="view">
+        <h3>Parent view</h3>
+        <p class="sub">Give, take, review, sync. All in two taps.</p>
+        <div class="shot"><img src="familystars/01_parent_main.jpg" alt="Parent main screen with two children Paul and Mary, plus star, minus star and history buttons" loading="lazy"></div>
+      </div>
+      <div class="view">
+        <h3>Kid view</h3>
+        <p class="sub">Their stars, their rewards, no admin buttons.</p>
+        <div class="shot"><img src="familystars/04_child_main.jpg" alt="Paul's Stars screen with star count 1, I did something button, Redeem reward, My history, Sync" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVACY -->
+<section class="alt">
+  <div class="wrap">
+    <div class="privacy-block">
+      <div>
+        <span class="eyebrow" style="color: var(--gold);">Privacy by design</span>
+        <h2>No accounts. No cloud. No tracking. Ever.</h2>
+        <p class="lead">Family Stars never asks for your email, your child’s name on a server, or anything else. Phones sync directly to each other over Bluetooth or by scanning a QR code on screen. Your data never leaves your family.</p>
+        <div class="pchips">
+          <span class="pchip">No sign-up</span>
+          <span class="pchip">Works offline</span>
+          <span class="pchip">No ads</span>
+          <span class="pchip">No analytics</span>
+          <span class="pchip">No in-app purchases</span>
+        </div>
+      </div>
+      <div>
+        <div class="phone-frame">
+          <img src="familystars/06_sync.jpg" alt="Sync with family screen showing Sync via Bluetooth as the recommended option, and QR code as a backup that works without Bluetooth" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES (preserved + tightened) -->
+<section>
+  <div class="narrow">
+    <span class="eyebrow">What is inside</span>
+    <h2>Everything you need. <span class="accent">Nothing you don’t.</span></h2>
+    <ul class="features">
+      <li><strong>Parents tap to give or take stars.</strong> Pick the number, type the reason, confirm.</li>
+      <li><strong>Kids redeem stars for rewards you set up together.</strong> A real reward, agreed in real life.</li>
+      <li><strong>Phones sync directly over Bluetooth or QR.</strong> No router, no internet, no server.</li>
+      <li><strong>Full history per child.</strong> See what was earned, when, and what it was for.</li>
+      <li><strong>Multiple parent phones supported.</strong> Mum and Dad can both give stars.</li>
+      <li><strong>Optional PIN lock</strong> so younger kids cannot switch into parent mode.</li>
+      <li><strong>No accounts. No ads. No data collection.</strong> One-time <strong>€1.49</strong>.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="alt">
+  <div class="narrow">
+    <div class="final-cta">
+      <h2>Yes, this is what you have been looking for.</h2>
+      <p class="lead" style="margin: 0 auto 8px;">Stop arguing about chores. Start handing out stars.</p>
+      <p class="price-row">One-time <strong>€1.49</strong> · No subscriptions · No ads · Works on any Android phone</p>
+      <a class="gp-btn" href="https://play.google.com/store/apps/details?id=ee.haide.familystars">
+        <svg class="gp-icon" viewBox="0 0 512 512" aria-hidden="true">
+          <path fill="#EA4335" d="M325.3 234.3L104.6 13l280.8 161-60.1 60.3z"/>
+          <path fill="#FBBC04" d="M385.4 174L104.6 13c-5.2-3-9.9-3.5-13.4-2.1l229.7 229.7 64.5-66.6z"/>
+          <path fill="#34A853" d="M91.2 10.9c-3.5 1.4-6.5 4.4-8.5 8.6V492.5c2 4.2 5 7.2 8.5 8.6l229.7-249.6L91.2 10.9z"/>
+          <path fill="#4285F4" d="M325.3 277.7L104.6 499l280.8-161-60.1-60.3z"/>
+        </svg>
+        <span class="gp-label"><small>GET IT ON</small><span>Google Play</span></span>
+      </a>
+      <div class="fb-explainer">
+        <span class="fb-icon">f</span><strong>Why a website and not a direct link?</strong> Facebook ads are not allowed to open the Google Play app directly, so we send you here first. The button above takes you straight to the Family Stars page on Google Play, where you can install it in one tap.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="narrow">
+    <span class="eyebrow">Quick questions</span>
+    <h2>Things parents usually ask.</h2>
+
+    <details class="faq">
+      <summary>Is there a free version?</summary>
+      <p>No, and there is a reason. There are no ads, no in-app purchases, and no tracking. The €1.49 is what pays for the app to stay that way. Pay once, use it for as long as you have an Android phone.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Does it need an internet connection?</summary>
+      <p>No. Family Stars works fully offline. Phones in the same family sync to each other directly over Bluetooth, or by scanning a QR code shown on the other phone’s screen.</p>
+    </details>
+
+    <details class="faq">
+      <summary>What if my child loses their phone or it breaks?</summary>
+      <p>Set the child up again on a new phone. The parent phone shows the family QR code, the child phone scans it, and the stars catch up on the next sync.</p>
+    </details>
+
+    <details class="faq">
+      <summary>How many children can I add?</summary>
+      <p>Up to eight children per family. Each one gets their own colour, their own star total, and their own history.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Does it work on iPhone?</summary>
+      <p>Not yet. Family Stars is Android only. If you have a parent on iPhone, let us know at appshaide@gmail.com. That helps decide what to build next.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Will my kid see ads or be tracked?</summary>
+      <p>No. There are no ads anywhere in the app, no analytics, no third-party SDKs. The app does not even ask for an internet permission.</p>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <p>
+    <a href="familystars_privacy_policy.html">Privacy policy</a> &middot;
+    <a href="/">More apps by HaideApps</a> &middot;
+    <a href="mailto:appshaide@gmail.com">appshaide@gmail.com</a>
+  </p>
+  <p>© 2026 HaideApps · Family Stars is made by Ragnar Häide</p>
+</footer>
+
+</body>
+</html>
