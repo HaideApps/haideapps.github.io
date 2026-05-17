@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://haideapps.github.io/sitemap.xml
