@@ -1,0 +1,835 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mosquito: Pitch Black. A summer nightmare you can hear, but you can't see.</title>
+<meta name="description" content="A pure-audio horror game. Real mosquito, 3D stereo, black screen, headphones required. You will fail. The mosquito always wins. One-time €1.69 on Google Play.">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#050208">
+<meta property="og:title" content="Mosquito: Pitch Black. Play if your nerves can take it.">
+<meta property="og:description" content="You will fail. The mosquito always wins. A pure-audio horror game for Android. Headphones required.">
+<meta property="og:image" content="https://haideapps.github.io/pitchblack/feature.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://haideapps.github.io/pitchblack.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://haideapps.github.io/pitchblack.html">
+<link rel="icon" href="pitchblack/icon.png">
+<style>
+  :root {
+    --bg: #050208;
+    --bg-soft: #0a0408;
+    --blood: #88081A;
+    --blood-dim: #6E101C;
+    --blood-bright: #D04030;
+    --bone: #F4ECE0;
+    --ink: #EAEAEE;
+    --muted: #8C7D80;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.65;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--blood-bright); text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  button { font-family: inherit; }
+
+  /* Vignette + breathing red glow */
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background: radial-gradient(circle at 50% 50%, transparent 28%, rgba(0,0,0,0.78) 100%);
+    pointer-events: none; z-index: 90;
+  }
+  body::after {
+    content: "";
+    position: fixed; inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(160,20,2,0.08) 0%, transparent 60%);
+    pointer-events: none; z-index: 89;
+    animation: breathe 6s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    0%, 100% { opacity: 0.45; }
+    50% { opacity: 1; }
+  }
+  @keyframes heartbeat-btn {
+    0%, 100% { box-shadow: 0 0 22px rgba(208,64,48,0.15), inset 0 0 10px rgba(208,64,48,0.08); }
+    50% { box-shadow: 0 0 50px rgba(208,64,48,0.55), inset 0 0 18px rgba(208,64,48,0.22); }
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0deg) translate(0, 0); }
+    25% { transform: rotate(-1.6deg) translate(-5px, 3px); }
+    50% { transform: rotate(0.6deg) translate(4px, -4px); }
+    75% { transform: rotate(1.2deg) translate(-3px, 2px); }
+  }
+
+  /* Layout */
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+  .narrow { max-width: 760px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  /* Typography */
+  .horror-title {
+    font-family: -apple-system, "Helvetica Neue", Impact, Arial, sans-serif;
+    font-weight: 900;
+    color: var(--bone);
+    letter-spacing: 0.015em;
+    text-shadow:
+      -2px 0 0 var(--blood), 2px 0 0 var(--blood),
+      0 -2px 0 var(--blood), 0 2px 0 var(--blood),
+      0 0 28px rgba(136,8,26,0.55),
+      0 6px 22px rgba(0,0,0,0.6);
+    line-height: 0.95;
+  }
+  .horror-sub {
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    color: var(--blood-bright);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .tagline {
+    font-family: Georgia, serif;
+    font-style: italic;
+    color: var(--blood-bright);
+  }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    min-height: 92vh;
+    display: grid;
+    place-items: center;
+    padding: 90px 0 70px;
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
+    align-items: center;
+    width: 100%;
+  }
+  .hero h1 {
+    font-size: clamp(2.8em, 8.5vw, 6.2em);
+    margin: 0 0 6px;
+  }
+  .hero .pitch-black {
+    font-size: clamp(1.4em, 4.4vw, 2.8em);
+    margin: 0 0 32px;
+  }
+  .hero .lede {
+    font-size: 1.16em;
+    color: var(--ink);
+    margin: 0 0 28px;
+    max-width: 520px;
+  }
+  .hero .lede em {
+    color: var(--blood-bright);
+    font-style: italic;
+    font-family: Georgia, serif;
+    display: block;
+    margin-top: 16px;
+    font-size: 1.08em;
+  }
+  .hero-mosquito {
+    position: relative;
+    animation: wiggle 7s ease-in-out infinite;
+    transform-origin: center;
+  }
+  .hero-mosquito img {
+    width: 100%;
+    max-width: 430px;
+    margin: 0 auto;
+    filter: drop-shadow(0 30px 60px rgba(0,0,0,0.75));
+  }
+
+  /* Buttons */
+  .btn-night {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0,0,0,0.35);
+    color: var(--bone);
+    padding: 18px 36px;
+    border: 2px solid var(--blood);
+    border-radius: 4px;
+    font-weight: 800;
+    font-size: 0.95em;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    animation: heartbeat-btn 2.4s ease-in-out infinite;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .btn-night:hover {
+    background: rgba(136,8,26,0.30);
+    transform: scale(1.03);
+  }
+
+  .gp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: #000;
+    color: white;
+    padding: 12px 22px 12px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.18);
+    font-weight: 600;
+  }
+  .gp-btn .gp-icon { width: 28px; height: 28px; }
+  .gp-btn .gp-label { display: flex; flex-direction: column; line-height: 1.1; }
+  .gp-btn .gp-label small { font-size: 0.74em; opacity: 0.85; letter-spacing: 0.05em; }
+  .gp-btn .gp-label span { font-size: 1.15em; font-weight: 700; letter-spacing: 0.05em; }
+
+  .hero-cta-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+
+  /* Sections */
+  section { padding: 80px 0; position: relative; }
+  .eyebrow {
+    display: inline-block;
+    color: var(--blood-bright);
+    font-family: Georgia, serif;
+    font-style: italic;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 0.85em;
+    margin-bottom: 12px;
+  }
+  h2.section-title {
+    font-size: clamp(2em, 5.5vw, 3.6em);
+    margin: 0 0 20px;
+  }
+  .inline-sub {
+    color: var(--blood-bright);
+    font-family: Georgia, serif;
+    font-style: italic;
+    letter-spacing: 0;
+    text-shadow: none;
+    font-weight: 500;
+  }
+
+  /* Audio demo */
+  .demo {
+    border: 1px solid rgba(136,8,26,0.45);
+    background: linear-gradient(180deg, rgba(8,2,12,0.85), rgba(0,0,0,0.96));
+    border-radius: 14px;
+    padding: 46px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .demo h3 { font-size: 1.55em; margin: 0 0 12px; color: var(--bone); }
+  .demo > p { color: var(--ink); max-width: 540px; margin: 0 auto 22px; }
+  .demo-stage {
+    height: 220px;
+    position: relative;
+    background: radial-gradient(circle at 50% 50%, rgba(160,20,2,0.07), transparent 70%);
+    border: 1px dashed rgba(136,8,26,0.28);
+    border-radius: 8px;
+    margin: 24px 0;
+    overflow: hidden;
+  }
+  .buzz-dot {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 9px; height: 9px;
+    background: var(--blood-bright);
+    border-radius: 50%;
+    box-shadow: 0 0 14px var(--blood-bright), 0 0 28px var(--blood);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s;
+  }
+  .demo.playing .buzz-dot {
+    opacity: 0.95;
+    animation: fly 11s linear infinite;
+  }
+  @keyframes fly {
+    0%   { transform: translate(-50%, -50%) translate(-320px, -80px); }
+    13%  { transform: translate(-50%, -50%) translate(300px, -50px); }
+    25%  { transform: translate(-50%, -50%) translate(-220px, 70px); }
+    38%  { transform: translate(-50%, -50%) translate(320px, 45px); }
+    50%  { transform: translate(-50%, -50%) translate(-300px, -65px); }
+    63%  { transform: translate(-50%, -50%) translate(220px, 30px); }
+    75%  { transform: translate(-50%, -50%) translate(-180px, -55px); }
+    88%  { transform: translate(-50%, -50%) translate(280px, -20px); }
+    100% { transform: translate(-50%, -50%) translate(-320px, -80px); }
+  }
+  .demo-button {
+    background: var(--bg);
+    color: var(--bone);
+    border: 2px solid var(--blood);
+    padding: 16px 30px;
+    font-size: 0.95em;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .demo-button:hover { background: rgba(136,8,26,0.18); transform: scale(1.03); }
+  .demo-hint {
+    margin-top: 14px;
+    font-size: 0.88em;
+    color: var(--muted);
+  }
+
+  /* You will fail */
+  .fail-section {
+    text-align: center;
+    background:
+      radial-gradient(circle at 50% 30%, rgba(136,8,26,0.18), transparent 65%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 50%, var(--bg) 100%);
+  }
+  .fail-section h2 {
+    font-size: clamp(2.8em, 9.5vw, 6em);
+    margin: 0 0 24px;
+  }
+  .fail-section .body { font-size: 1.16em; color: var(--ink); max-width: 640px; margin: 0 auto 14px; }
+  .fail-section .body em { color: var(--blood-bright); font-style: italic; font-family: Georgia, serif; }
+
+  /* How it hunts */
+  .steps-h {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+    margin-top: 30px;
+  }
+  .step-h {
+    background: rgba(8,2,12,0.65);
+    border: 1px solid rgba(136,8,26,0.35);
+    border-radius: 8px;
+    padding: 24px 22px;
+  }
+  .step-h .num {
+    color: var(--blood-bright);
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 1.45em;
+    margin-bottom: 6px;
+  }
+  .step-h h3 { color: var(--bone); margin: 0 0 8px; font-size: 1.12em; letter-spacing: 0.02em; }
+  .step-h p { color: var(--ink); margin: 0; font-size: 0.95em; }
+
+  /* Personalities */
+  .personas {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-top: 30px;
+  }
+  .persona {
+    background: rgba(0,0,0,0.55);
+    border: 1px solid rgba(136,8,26,0.35);
+    border-radius: 8px;
+    padding: 22px 14px;
+    text-align: center;
+  }
+  .persona h3 {
+    color: var(--blood-bright);
+    font-family: Georgia, serif;
+    font-style: italic;
+    margin: 0 0 10px;
+    font-size: 1.05em;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .persona p { color: var(--ink); font-size: 0.88em; margin: 0; }
+
+  /* Screenshots */
+  .shots {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+  }
+  .shot {
+    background: rgba(8,2,12,0.65);
+    border: 1px solid rgba(136,8,26,0.35);
+    border-radius: 16px;
+    padding: 12px;
+  }
+  .shot img { border-radius: 10px; }
+  .shot p {
+    color: var(--ink);
+    text-align: center;
+    font-size: 0.9em;
+    margin: 14px 0 4px;
+    font-family: Georgia, serif;
+    font-style: italic;
+  }
+
+  /* Hall of pain block */
+  .hop {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 40px;
+    align-items: center;
+    background:
+      radial-gradient(circle at 100% 50%, rgba(136,8,26,0.2), transparent 65%),
+      linear-gradient(135deg, var(--bg-soft), #1a060c);
+    border: 1px solid rgba(136,8,26,0.4);
+    border-radius: 14px;
+    padding: 44px;
+  }
+  .hop h2 { margin-top: 0; }
+  .hop img { max-width: 290px; margin: 0 auto; border-radius: 10px; box-shadow: 0 18px 36px rgba(0,0,0,0.6); }
+
+  /* Privacy list */
+  ul.priv {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0;
+  }
+  ul.priv li {
+    padding: 10px 0 10px 30px;
+    position: relative;
+    color: var(--ink);
+  }
+  ul.priv li::before {
+    content: "✕";
+    position: absolute;
+    left: 0; top: 10px;
+    color: var(--blood-bright);
+    font-weight: 700;
+  }
+
+  /* Final CTA */
+  .final-cta {
+    text-align: center;
+    background: radial-gradient(circle at 50% 50%, rgba(136,8,26,0.22), transparent 70%);
+    border: 1px solid rgba(136,8,26,0.45);
+    border-radius: 14px;
+    padding: 64px 30px;
+  }
+  .final-cta h2 { font-size: clamp(2.2em, 6vw, 3.4em); margin: 0 0 14px; }
+  .final-cta .price-line { color: var(--ink); margin: 18px 0 30px; font-size: 1.05em; }
+  .final-cta .price-line strong { color: var(--bone); font-size: 1.2em; }
+
+  /* FAQ */
+  details.faq {
+    background: rgba(8,2,12,0.7);
+    border: 1px solid rgba(136,8,26,0.32);
+    border-radius: 8px;
+    padding: 16px 22px;
+    margin: 12px 0;
+  }
+  details.faq summary {
+    cursor: pointer;
+    color: var(--bone);
+    font-weight: 600;
+    list-style: none;
+    position: relative;
+    padding-right: 30px;
+  }
+  details.faq summary::-webkit-details-marker { display: none; }
+  details.faq summary::after {
+    content: "+";
+    position: absolute;
+    right: 0; top: -2px;
+    color: var(--blood-bright);
+    font-size: 1.4em;
+    line-height: 1;
+  }
+  details.faq[open] summary::after { content: "\2212"; }
+  details.faq p { color: var(--ink); margin: 12px 0 0; }
+
+  /* FB note */
+  .fb-note {
+    margin-top: 22px;
+    border-left: 3px solid var(--blood);
+    background: rgba(0,0,0,0.55);
+    padding: 12px 16px;
+    color: var(--muted);
+    font-size: 0.9em;
+    max-width: 540px;
+  }
+  .fb-note strong { color: var(--ink); }
+
+  /* Blackout easter egg */
+  .blackout {
+    position: fixed; inset: 0;
+    background: #000;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.7s;
+    display: grid;
+    place-items: center;
+  }
+  .blackout.on { opacity: 1; pointer-events: auto; }
+  .blackout p {
+    color: var(--blood-bright);
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 1.35em;
+    text-align: center;
+    padding: 0 24px;
+    opacity: 0;
+    transition: opacity 1.5s 0.8s;
+    max-width: 520px;
+  }
+  .blackout.on p { opacity: 1; }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 56px 24px 90px;
+    color: var(--muted);
+    font-size: 0.9em;
+    position: relative;
+    z-index: 1;
+  }
+  footer a { color: var(--blood-bright); }
+
+  /* Mobile */
+  @media (max-width: 880px) {
+    section { padding: 56px 0; }
+    .hero { padding: 60px 0 40px; min-height: auto; }
+    .hero-grid { grid-template-columns: 1fr; gap: 24px; text-align: center; }
+    .hero .lede { margin-left: auto; margin-right: auto; }
+    .hero-cta-row { justify-content: center; }
+    .fb-note { margin-left: auto; margin-right: auto; }
+    .hero-mosquito img { max-width: 260px; }
+    .hero-mosquito { order: -1; }
+    .steps-h { grid-template-columns: 1fr 1fr; }
+    .personas { grid-template-columns: 1fr 1fr; }
+    .shots { grid-template-columns: 1fr 1fr; }
+    .hop { grid-template-columns: 1fr; padding: 28px 22px; gap: 24px; }
+    .demo { padding: 32px 20px; }
+    .demo-stage { height: 180px; }
+  }
+  @media (max-width: 520px) {
+    .personas { grid-template-columns: 1fr; }
+    .steps-h { grid-template-columns: 1fr; }
+    .shots { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="blackout" id="blackout"><p>This is the game. Headphones on, lights off. Tap anywhere to come back.</p></div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">A summer nightmare you can hear, but you can't see.</span>
+      <h1 class="horror-title">MOSQUITO</h1>
+      <p class="pitch-black horror-sub">Pitch Black</p>
+      <p class="lede">
+        Pure audio. Black screen. A real mosquito moves around your head in 3D stereo, and you have to slap the side where it just passed your ear.
+        <em>You will fail. The mosquito always wins.</em>
+      </p>
+      <div class="hero-cta-row">
+        <a class="btn-night" href="https://play.google.com/store/apps/details?id=ee.haide.pitchblack">Enter the night</a>
+        <a class="gp-btn" href="https://play.google.com/store/apps/details?id=ee.haide.pitchblack">
+          <svg class="gp-icon" viewBox="0 0 512 512" aria-hidden="true">
+            <path fill="#EA4335" d="M325.3 234.3L104.6 13l280.8 161-60.1 60.3z"/>
+            <path fill="#FBBC04" d="M385.4 174L104.6 13c-5.2-3-9.9-3.5-13.4-2.1l229.7 229.7 64.5-66.6z"/>
+            <path fill="#34A853" d="M91.2 10.9c-3.5 1.4-6.5 4.4-8.5 8.6V492.5c2 4.2 5 7.2 8.5 8.6l229.7-249.6L91.2 10.9z"/>
+            <path fill="#4285F4" d="M325.3 277.7L104.6 499l280.8-161-60.1-60.3z"/>
+          </svg>
+          <span class="gp-label"><small>GET IT ON</small><span>Google Play</span></span>
+        </a>
+      </div>
+      <p class="tagline" style="margin-top:18px;font-size:1.05em;">Play if your nerves can take it.</p>
+      <div class="fb-note">
+        <strong>Came from Facebook?</strong> Facebook ads cannot open the Google Play app directly, so they send you here first. The button above takes you straight to the Play Store. Headphones strongly recommended.
+      </div>
+    </div>
+    <div class="hero-mosquito">
+      <img src="pitchblack/cartoon.png" alt="Smug cartoon mosquito with a Heh heh speech bubble, the game's mascot" loading="eager">
+    </div>
+  </div>
+</header>
+
+<!-- HEAR IT (INTERACTIVE DEMO) -->
+<section>
+  <div class="narrow">
+    <span class="eyebrow">Step one: hear it for yourself.</span>
+    <h2 class="section-title horror-title">This is the sound. <span class="inline-sub" style="font-size:0.5em;">In the game, the screen is black.</span></h2>
+    <p>That little red dot below is just to help your eyes. In the real game there is nothing on screen at all. The buzz moves through your headphones, side to side, closer and farther, and your job is to remember exactly where you last heard it.</p>
+    <div class="demo" id="demo">
+      <h3 class="horror-title" style="font-size:1.5em;">Press to hear what's coming.</h3>
+      <p>Real mosquito recording. Best on headphones. Plays on a loop until you stop it.</p>
+      <div class="demo-stage" aria-hidden="true">
+        <div class="buzz-dot"></div>
+      </div>
+      <button class="demo-button" id="playBtn" type="button">Press to hear it</button>
+      <p class="demo-hint" id="demoHint">Once you press it, imagine 16 to 33 seconds of this, in pitch black, with vibration when you lose.</p>
+      <audio id="buzz" loop preload="none">
+        <source src="pitchblack/buzz.wav" type="audio/wav">
+      </audio>
+    </div>
+  </div>
+</section>
+
+<!-- YOU WILL FAIL -->
+<section class="fail-section">
+  <div class="narrow">
+    <h2 class="horror-title">You will fail.</h2>
+    <p class="body">You cannot see the mosquito. The screen stays black. The only number on the HUD is how many you have slapped in your entire life, and <em>that number stays smaller than you would like.</em></p>
+    <p class="body">Miss the slap and the same mosquito flies off, then comes right back. Let it land and you get five seconds of heartbeat vibration through the phone while it bites your face. There is no win screen. There is only how long you last before the next bite.</p>
+    <p class="tagline" style="font-size:1.25em;margin-top:28px;">The mosquito always wins. That is not a metaphor.</p>
+  </div>
+</section>
+
+<!-- HOW IT HUNTS YOU -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">How it hunts you</span>
+    <h2 class="section-title horror-title">Four steps. <span class="inline-sub" style="font-size:0.45em;">No tutorial necessary.</span></h2>
+    <div class="steps-h">
+      <div class="step-h">
+        <div class="num">i.</div>
+        <h3>Headphones on.</h3>
+        <p>The whole game is in your ears. Phone speakers will not cut it: there is no left, no right, no closer, no farther. Use headphones or earbuds and just listen.</p>
+      </div>
+      <div class="step-h">
+        <div class="num">ii.</div>
+        <h3>Wait until it sounds close.</h3>
+        <p>Far buzz is out of reach. The bug has to come in for a pass before you can land a slap. Patience is the whole game. Slap too early and you give yourself away.</p>
+      </div>
+      <div class="step-h">
+        <div class="num">iii.</div>
+        <h3>Slap the side you heard.</h3>
+        <p>Tap the left or right edge of the screen, fast, the instant it brushes your ear. The screen never tells you where the bug is. Your ears are the only sensor.</p>
+      </div>
+      <div class="step-h">
+        <div class="num">iv.</div>
+        <h3>Miss, and it gets worse.</h3>
+        <p>Miss it and the same mosquito flies off, then circles back, angrier. Ignore it long enough and it lands. Five seconds of bite-vibration. Then a new one spawns.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 PERSONALITIES -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">Five mosquitoes, all of them yours</span>
+    <h2 class="section-title horror-title">It is not the same bug. <span class="inline-sub" style="font-size:0.4em;">Every spawn has a personality.</span></h2>
+    <p style="max-width:680px;color:var(--ink);">Each spawn quietly picks one of five behaviour profiles, with its own pitch and approach angle. Some toy with you for half a minute. Some come from behind your head. One has a buzz pitched so low it sounds like it is already inside your ear canal.</p>
+    <div class="personas">
+      <div class="persona">
+        <h3>Teaser</h3>
+        <p>Slow. Stays far. Will not commit to a landing for 27 to 33 seconds. By the time you stop trusting your own ears, it lands.</p>
+      </div>
+      <div class="persona">
+        <h3>Normal</h3>
+        <p>The honest one. Two or three close passes, then it commits. Your only fair fight.</p>
+      </div>
+      <div class="persona">
+        <h3>Hunter</h3>
+        <p>Comes from above and behind. You cannot face the direction the sound is coming from. You can only feel it.</p>
+      </div>
+      <div class="persona">
+        <h3>Aggressive</h3>
+        <p>Fast. Impatient. One or two passes and it dives. If you blinked, you missed. Then it bites.</p>
+      </div>
+      <div class="persona">
+        <h3>Earworm</h3>
+        <p>Stays close enough to feel like it is inside your skull. Your real instinct is to swat your own ear. Do not.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCREENSHOTS -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">What you see on screen</span>
+    <h2 class="section-title horror-title">Four screens. <span class="inline-sub" style="font-size:0.4em;">The real one is black.</span></h2>
+    <div class="shots">
+      <div class="shot"><img src="pitchblack/menu.jpg" alt="Mosquito Pitch Black main menu with smug mosquito mascot and ENTER THE NIGHT button" loading="lazy"><p>Menu. Heh heh.</p></div>
+      <div class="shot"><img src="pitchblack/listen.jpg" alt="Listen Carefully popup with INSTRUCTIONS button and TAP TO BEGIN button" loading="lazy"><p>Last warning.</p></div>
+      <div class="shot"><img src="pitchblack/instructions.jpg" alt="Instructions page with rules: sound on, headphones, wait, slap, miss" loading="lazy"><p>The whole manual.</p></div>
+      <div class="shot"><img src="pitchblack/hallofpain.jpg" alt="Hall of Pain stats: mosquitoes caught, slap attempts, hit rate, bites suffered, time in the dark, time bitten" loading="lazy"><p>Hall of Pain.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- HALL OF PAIN BLOCK -->
+<section>
+  <div class="wrap">
+    <div class="hop">
+      <div>
+        <span class="eyebrow">Hall of Pain</span>
+        <h2 class="horror-title">Every slap counted. <span class="inline-sub" style="font-size:0.45em;">Every bite remembered.</span></h2>
+        <p>The game keeps a permanent record of your suffering: mosquitoes caught, slap attempts, hit rate, bites taken, total time spent in the dark, total time being bitten. There is a button to reset it. There is no reason to press it.</p>
+        <p class="tagline">Your progress is pain. That is the progress bar.</p>
+      </div>
+      <div>
+        <img src="pitchblack/hallofpain.jpg" alt="Hall of Pain stats screen with the smug mosquito mascot at the top" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVACY -->
+<section>
+  <div class="narrow">
+    <span class="eyebrow">No tracking. No accounts. No ads.</span>
+    <h2 class="section-title horror-title">It cannot phone home. <span class="inline-sub" style="font-size:0.45em;">Why would a mosquito game need to?</span></h2>
+    <p>One permission. <strong style="color:var(--bone);">Vibrate.</strong> So your phone can shudder while the bug bites you. That is it.</p>
+    <ul class="priv">
+      <li>No internet permission. The game cannot reach the network even if it wanted to.</li>
+      <li>No account, no email, no sign-in.</li>
+      <li>No ads. No in-app purchases. No subscriptions.</li>
+      <li>No analytics, no SDKs, no third parties.</li>
+      <li>No microphone, camera, contacts, location, or storage access.</li>
+    </ul>
+    <p>Your stats live on your phone. Uninstall and they are gone. The mosquito will not remember you. The mosquito does not have a server.</p>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section>
+  <div class="narrow">
+    <div class="final-cta">
+      <h2 class="horror-title">Yes. <span class="inline-sub" style="font-size:0.5em;">You want this.</span></h2>
+      <p style="color:var(--ink);max-width:560px;margin:0 auto;">Find a quiet room. Put on real headphones. Turn off the lights. Tap the button. Lose. Try again. Keep losing. Try not to throw your phone.</p>
+      <p class="price-line">One time <strong>€1.69</strong> · No ads · No tracking · No in-app purchases</p>
+      <a class="btn-night" href="https://play.google.com/store/apps/details?id=ee.haide.pitchblack">Enter the night</a>
+      <p class="tagline" style="margin-top:30px;">Play if your nerves can take it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PITCH BLACK MODE EASTER EGG -->
+<section style="text-align:center;padding:30px 0 60px;">
+  <button id="blackBtn" class="demo-button" type="button">Taste pitch black for 4 seconds</button>
+  <p style="color:var(--muted);font-size:0.85em;margin-top:14px;max-width:480px;margin-left:auto;margin-right:auto;">No audio, no mosquito. Just the dark. Tap anywhere to come back early.</p>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="narrow">
+    <span class="eyebrow">Things people quietly ask</span>
+    <h2 class="section-title horror-title">FAQ <span class="inline-sub" style="font-size:0.4em;">a survivor's brief.</span></h2>
+
+    <details class="faq">
+      <summary>Do I really need headphones?</summary>
+      <p>Yes, and not optional. The entire game is built around 3D stereo: left ear, right ear, inter-aural delay, head-shadow filtering, distance. On phone speakers it collapses into mono buzz and the game becomes pointless. Cheap wired earbuds work fine. AirPods, gaming headsets, anything that gives you two ears.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Is the mosquito sound a synth?</summary>
+      <p>No. It is a real recording of an actual mosquito, cleaned up and looped so seamlessly you cannot hear the join. That sample plays through a real-time 3D audio engine: pan, distance lowpass, head-shadow lowpass, inter-aural time delay, and per-spawn pitch shifting. That is why every spawn sounds like one specific bug rather than a generic buzz.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Can I actually win?</summary>
+      <p>You can slap mosquitoes. The score goes up. There is no end screen and no "you win" message. The mosquito always comes back. Your goal is whatever you decide: a longer streak, fewer bites, a respectable Hit Rate in the Hall of Pain.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Will it scare children?</summary>
+      <p>Probably, yes. The game is rated 18+ on purpose. The buzz is genuinely unsettling on headphones, the screen is black so younger children find it confusing, and there are sudden 5-second vibrations when you get bitten. This is not a game for the kids' tablet.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Why does it cost money?</summary>
+      <p>So it does not have to sell you. No ads, no in-app purchases, no analytics, no engagement loops. €1.69 once, and that is the whole transaction. It also keeps the reviews honest, since people who actually want this kind of game self-select in.</p>
+    </details>
+
+    <details class="faq">
+      <summary>What does the screen actually show during play?</summary>
+      <p>Pure black, the lifetime score in the top-left corner, and a small "Give Up" button in the top-right. When you tap, a thin white ring briefly shows where your finger landed. That is the entire visual feedback. Everything else is in your ears and in the phone's vibration motor.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Will it drain my battery?</summary>
+      <p>Not noticeably. The screen is black for most of the session, which costs almost nothing on OLED phones. The audio engine and the occasional vibration are the only ongoing work. A typical session is a few minutes, often less.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Does it work offline?</summary>
+      <p>Yes. There is no internet permission in the manifest, so the game cannot use the network even if it wanted to. Pure offline single-player.</p>
+    </details>
+
+    <details class="faq">
+      <summary>iPhone version?</summary>
+      <p>Not yet. Mosquito: Pitch Black is Android only. If enough iPhone users ask, that helps decide what to build next: appshaide@gmail.com.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Who made this?</summary>
+      <p>An indie developer in Estonia who got bitten too many times. Same person who made Family Stars, AbiÄpp, Senior Helper, Peretärnid, and Tiny Chaos Button: HaideApps.</p>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <p>
+    <a href="pitchblack_privacy_policy.html">Privacy policy</a> &middot;
+    <a href="/">More apps by HaideApps</a> &middot;
+    <a href="mailto:appshaide@gmail.com">appshaide@gmail.com</a>
+  </p>
+  <p>© 2026 HaideApps · Mosquito: Pitch Black is made by Ragnar Häide</p>
+</footer>
+
+<script>
+(function () {
+  var demo = document.getElementById('demo');
+  var audio = document.getElementById('buzz');
+  var btn = document.getElementById('playBtn');
+  var hint = document.getElementById('demoHint');
+  var playing = false;
+  btn.addEventListener('click', function () {
+    if (!playing) {
+      audio.currentTime = 0;
+      audio.volume = 0.85;
+      var p = audio.play();
+      if (p && typeof p.catch === 'function') {
+        p.catch(function () {
+          hint.textContent = "Your browser blocked autoplay. Tap the button once more, or unmute the tab.";
+        });
+      }
+      playing = true;
+      demo.classList.add('playing');
+      btn.textContent = "Stop. Stop. Stop.";
+      hint.textContent = "Now imagine this through headphones, in the dark, while it leans toward your ear.";
+    } else {
+      audio.pause();
+      audio.currentTime = 0;
+      playing = false;
+      demo.classList.remove('playing');
+      btn.textContent = "Press to hear it";
+      hint.textContent = "Once you press it, imagine 16 to 33 seconds of this, in pitch black, with vibration when you lose.";
+    }
+  });
+
+  var black = document.getElementById('blackout');
+  var blackBtn = document.getElementById('blackBtn');
+  var blackTimer = null;
+  function endBlack () {
+    black.classList.remove('on');
+    if (blackTimer) { clearTimeout(blackTimer); blackTimer = null; }
+  }
+  blackBtn.addEventListener('click', function () {
+    black.classList.add('on');
+    blackTimer = setTimeout(endBlack, 4000);
+  });
+  black.addEventListener('click', endBlack);
+})();
+</script>
+</body>
+</html>
