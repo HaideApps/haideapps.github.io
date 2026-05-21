@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="et">
+<head>
+<meta charset="utf-8">
+<title>Peretärnid: külmkapi-stiilis tärnitabel, nüüd pere telefonides</title>
+<meta name="description" content="Lihtne tärnitabel peredele. Vanem klõpsab tärni andmiseks või võtmiseks, lapsed lunastavad oma tärne preemiate vastu. Ei kontosid, ei reklaame, ei pilve. Töötab offline. Ühekordne €1.49 Google Plays.">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta property="og:title" content="Peretärnid: tärnitabel, nüüd pere telefonides">
+<meta property="og:description" content="Valige preemiad koos. Tähistage võite. Sinu pere jääb sinu omaks: ei kontosid, ei reklaame, ei pilve. Ühekordne €1.49.">
+<meta property="og:image" content="https://haideapps.github.io/peretarnid/01_parent_main.jpg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://haideapps.github.io/peretarnid.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://haideapps.github.io/peretarnid.html">
+<style>
+  *,
+  *::before,
+  *::after { box-sizing: border-box; }
+  :root {
+    --brand: #5B3FB8;
+    --brand-dark: #3F2A8A;
+    --brand-light: #EFEAFB;
+    --gold: #F5B400;
+    --green: #1B7F3A;
+    --green-dark: #155F2C;
+    --ink: #1f2937;
+    --ink-soft: #475569;
+    --muted: #64748b;
+    --line: #e5e7eb;
+    --bg: #fafafa;
+    --card: #ffffff;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: #0F5FB5; }
+
+  /* Layout */
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+  .narrow { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+
+  /* Hero */
+  .hero {
+    background:
+      radial-gradient(1100px 500px at 80% -10%, rgba(245,180,0,0.18), transparent 60%),
+      linear-gradient(160deg, #2a1c66 0%, #5B3FB8 60%, #7C5AE0 100%);
+    color: white;
+    padding: 56px 0 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 36px;
+    align-items: center;
+  }
+  .hero h1 {
+    font-size: 2.6em;
+    line-height: 1.15;
+    margin: 0 0 16px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .hero .star-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.12);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.85em;
+    margin-bottom: 18px;
+    backdrop-filter: blur(6px);
+  }
+  .hero .star-badge .s { color: var(--gold); }
+  .hero p.lede {
+    font-size: 1.2em;
+    color: rgba(255,255,255,0.92);
+    margin: 0 0 26px;
+    max-width: 540px;
+  }
+  .hero .price {
+    color: rgba(255,255,255,0.78);
+    font-size: 0.95em;
+    margin-top: 12px;
+  }
+  .hero .price strong { color: var(--gold); }
+  .hero-cta-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .gp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: #000;
+    color: white;
+    padding: 12px 22px 12px 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.12);
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+  .gp-btn:hover { transform: translateY(-1px); background: #111; }
+  .gp-btn .gp-icon {
+    width: 28px; height: 28px;
+    display: inline-block;
+  }
+  .gp-btn .gp-label { display: flex; flex-direction: column; line-height: 1.1; }
+  .gp-btn .gp-label small { font-size: 0.75em; opacity: 0.85; }
+  .gp-btn .gp-label span { font-size: 1.15em; font-weight: 700; letter-spacing: 0.2px; }
+
+  .secondary-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.18);
+  }
+  .secondary-btn:hover { background: rgba(255,255,255,0.16); }
+
+  .fb-note {
+    margin-top: 16px;
+    font-size: 0.9em;
+    color: rgba(255,255,255,0.78);
+    background: rgba(0,0,0,0.18);
+    border-left: 3px solid var(--gold);
+    padding: 10px 14px;
+    border-radius: 8px;
+    max-width: 520px;
+  }
+  .fb-note strong { color: white; }
+
+  /* Hero phone */
+  .phone-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 28px;
+    padding: 18px;
+    position: relative;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.45);
+  }
+  .phone-card .phone-frame {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px -12px rgba(0,0,0,0.5);
+  }
+  .phone-card .phone-frame img { width: 100%; display: block; }
+  .phone-card .pill {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gold);
+    color: #2a1c00;
+    font-weight: 700;
+    font-size: 0.85em;
+    padding: 6px 14px;
+    border-radius: 999px;
+    white-space: nowrap;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  }
+
+  /* Sections */
+  section { padding: 64px 0; }
+  section.alt { background: white; }
+  h2 {
+    font-size: 1.9em;
+    margin: 0 0 14px;
+    color: var(--ink);
+    letter-spacing: -0.3px;
+  }
+  h2 .accent { color: var(--brand); }
+  .eyebrow {
+    display: inline-block;
+    color: var(--brand);
+    font-weight: 700;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .lead {
+    font-size: 1.1em;
+    color: var(--ink-soft);
+    max-width: 680px;
+    margin: 0 0 36px;
+  }
+
+  /* Promise grid */
+  .promise-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 8px;
+  }
+  .promise {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid var(--line);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .promise .ico {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: grid; place-items: center;
+    background: var(--brand-light);
+    color: var(--brand);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .promise h3 {
+    margin: 0 0 6px;
+    font-size: 1.15em;
+    color: var(--ink);
+  }
+  .promise p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.97em;
+  }
+
+  /* Steps */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-top: 12px;
+  }
+  .step {
+    background: white;
+    border-radius: 18px;
+    padding: 22px;
+    border: 1px solid var(--line);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+  }
+  .step .num {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--brand);
+    color: white;
+    display: grid; place-items: center;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .step h3 {
+    margin: 0 0 6px;
+    color: var(--ink);
+    font-size: 1.15em;
+  }
+  .step p {
+    margin: 0 0 16px;
+    color: var(--ink-soft);
+    font-size: 0.97em;
+  }
+  .step .shot {
+    margin-top: auto;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #f6f4ff;
+    aspect-ratio: 9 / 19.5;
+  }
+  .step .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+
+  /* Two views */
+  .two-up {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-top: 8px;
+  }
+  .view {
+    background: white;
+    border-radius: 18px;
+    padding: 22px;
+    border: 1px solid var(--line);
+  }
+  .view h3 {
+    margin: 0 0 4px;
+    font-size: 1.2em;
+    color: var(--brand);
+  }
+  .view .sub { color: var(--muted); font-size: 0.9em; margin-bottom: 14px; }
+  .view .shot {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #f6f4ff;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+  .view .shot img { width: 100%; display: block; }
+
+  /* Privacy block */
+  .privacy-block {
+    background: linear-gradient(135deg, #1c1342 0%, #5B3FB8 100%);
+    color: white;
+    border-radius: 22px;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 32px;
+    align-items: center;
+  }
+  .privacy-block h2 { color: white; margin-top: 0; }
+  .privacy-block .lead { color: rgba(255,255,255,0.86); margin-bottom: 18px; }
+  .pchips {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;
+  }
+  .pchip {
+    background: rgba(255,255,255,0.12);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.88em;
+    border: 1px solid rgba(255,255,255,0.18);
+  }
+  .privacy-block .phone-frame {
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px -12px rgba(0,0,0,0.5);
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  /* Features */
+  ul.features { padding: 0; list-style: none; margin: 0; }
+  ul.features li {
+    margin: 10px 0;
+    padding: 14px 16px 14px 48px;
+    position: relative;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+  }
+  ul.features li:before {
+    content: "★";
+    color: var(--gold);
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.4em;
+    line-height: 1;
+  }
+  ul.features li strong { color: var(--ink); }
+
+  /* Final CTA */
+  .final-cta {
+    background: linear-gradient(135deg, #fff8e8 0%, #fefcf5 100%);
+    border: 1px solid #f5deb1;
+    border-radius: 22px;
+    padding: 40px;
+    text-align: center;
+  }
+  .final-cta h2 { margin-top: 0; }
+  .final-cta .price-row {
+    font-size: 1.05em;
+    color: var(--ink-soft);
+    margin: 12px 0 22px;
+  }
+  .final-cta .price-row strong { color: var(--ink); font-size: 1.2em; }
+  .final-cta .gp-btn { background: var(--green); border-color: transparent; }
+  .final-cta .gp-btn:hover { background: var(--green-dark); }
+  .final-cta .fb-explainer {
+    margin-top: 18px;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 18px;
+    color: var(--ink-soft);
+    font-size: 0.93em;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+  }
+  .final-cta .fb-explainer strong { color: var(--ink); }
+  .final-cta .fb-explainer .fb-icon {
+    color: #1877F2;
+    font-weight: 800;
+    margin-right: 6px;
+  }
+
+  /* FAQ */
+  details.faq {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin: 10px 0;
+  }
+  details.faq summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--ink);
+    list-style: none;
+    position: relative;
+    padding-right: 24px;
+  }
+  details.faq summary::-webkit-details-marker { display: none; }
+  details.faq summary::after {
+    content: "+";
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: var(--brand);
+    font-size: 1.3em;
+    line-height: 1;
+  }
+  details.faq[open] summary::after { content: "−"; }
+  details.faq p { margin: 10px 0 0; color: var(--ink-soft); }
+  details.faq ul {
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  details.faq ul li {
+    color: var(--ink-soft);
+    padding: 6px 0 6px 24px;
+    position: relative;
+  }
+  details.faq ul li::before {
+    content: "✕";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    color: #c4364a;
+    font-weight: 700;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 32px 20px 60px;
+    color: #94a3b8;
+    font-size: 0.9em;
+  }
+  footer a { color: #0F5FB5; }
+
+  /* Mobile */
+  @media (max-width: 820px) {
+    .hero { padding: 40px 0 24px; }
+    .hero h1 { font-size: 2.05em; }
+    .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+    .phone-card { max-width: 360px; margin: 0 auto; }
+    .promise-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; }
+    .two-up { grid-template-columns: 1fr; }
+    .privacy-block { grid-template-columns: 1fr; padding: 28px; }
+    .privacy-block .phone-frame { max-width: 240px; }
+    section { padding: 44px 0; }
+    h2 { font-size: 1.55em; }
+    .final-cta { padding: 28px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="star-badge"><span class="s">★</span> Peretärnid Google Plays</span>
+      <h1>Külmkapi-tärnitabel, nüüd pere telefonides.</h1>
+      <p class="lede">Mäletad paberist tärnitabelit külmkapil, kus iga tärn oli päris vestlus selle üle, mida laps sel päeval tegi? Peretärnid toob sama tabeli pere telefonidesse ja hoiab jutuajamise seal, kus see olema peab: õhtulauas, jalutuskäigul, diivanil. Mitte chati aknas. Mitte serveris. Mitte pilves.</p>
+      <div class="hero-cta-row">
+        <a class="gp-btn" href="https://play.google.com/store/apps/details?id=ee.haide.peretarnid">
+          <svg class="gp-icon" viewBox="0 0 512 512" aria-hidden="true">
+            <path fill="#EA4335" d="M325.3 234.3L104.6 13l280.8 161-60.1 60.3z"/>
+            <path fill="#FBBC04" d="M385.4 174L104.6 13c-5.2-3-9.9-3.5-13.4-2.1l229.7 229.7 64.5-66.6z"/>
+            <path fill="#34A853" d="M91.2 10.9c-3.5 1.4-6.5 4.4-8.5 8.6V492.5c2 4.2 5 7.2 8.5 8.6l229.7-249.6L91.2 10.9z"/>
+            <path fill="#4285F4" d="M325.3 277.7L104.6 499l280.8-161-60.1-60.3z"/>
+          </svg>
+          <span class="gp-label"><small>LAE ALLA</small><span>Google Play</span></span>
+        </a>
+        <a class="secondary-btn" href="#how">Vaata kuidas töötab ↓</a>
+      </div>
+      <p class="price">Ühekordne <strong>€1.49</strong> · Tellimusi pole · Sisseostudeta</p>
+      <div class="fb-note">
+        <strong>Tulid Facebookist?</strong> Facebooki reklaamid ei saa Google Play äppi otse avada, seega suunavad sind kõigepealt siia. Vajuta ülemist nuppu ja jõuad otse Play poodi.
+      </div>
+    </div>
+    <div>
+      <div class="phone-card">
+        <div class="pill">★ Päris ekraan, päris äpp</div>
+        <div class="phone-frame">
+          <img src="peretarnid/01_parent_main.jpg" alt="Peretärnid vanema avaleht Kallega, plussi ja miinuse tärni nupud ning ajalugu" loading="eager">
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- WHY FAMILIES LOVE IT -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">Peredele, kes tahavad et see oleks lõbus</span>
+    <h2>Räägi rohkem. <span class="accent">Tähista rohkem.</span></h2>
+    <p class="lead">Peretärnid ei ole majapidamistööde jälgija ega viis lapse kontrollimiseks. See on väike ühine mäng, mida mängite koos. Te valite preemiad koos, mõlemad jälgite kuidas tärnid kogunevad, ja päris vestlused toimuvad valjusti laua taga, mitte äpi sees.</p>
+
+    <div class="promise-grid">
+      <div class="promise">
+        <div class="ico">★</div>
+        <h3>Otsustage koos.</h3>
+        <p>Sina ja sinu laps lepite kokku, mida tärnid väärt on ja mille peale neid kulutada saab. Äpp peab ainult arvet, et kummalgi poleks vaja peast meeles pidada.</p>
+      </div>
+      <div class="promise">
+        <div class="ico">⏱</div>
+        <h3>Võtab kümme sekundit.</h3>
+        <p>Ava äpp, vajuta +Tärn, kirjuta „aitas nõusid pesta". See ongi kogu protsess. Järgmise sünki ajal näeb sinu laps tärni ja sinu väikest sõnumit.</p>
+      </div>
+      <div class="promise">
+        <div class="ico">🔒</div>
+        <h3>Sinu pere jääb sinu omaks.</h3>
+        <p>Ei kontosid. Ei pilve. Ei reklaame. Ei jälgimist. Tärnid elavad sinu telefonides ja mitte kuskil mujal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" class="alt">
+  <div class="wrap">
+    <span class="eyebrow">Kuidas töötab</span>
+    <h2>Kolm väikest ekraani. <span class="accent">Üks ühine mäng.</span></h2>
+    <p class="lead">Kõigepealt lepite oma lapsega preemiate üle kokku. Seejärel annad tärne, kui head hetked toimuvad, ja sinu laps kogub seda, mille ta ise valis. Ongi kõik.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <h3>Valige preemiad koos.</h3>
+        <p>Istuge oma lapsega maha. Tema pakub asju, mida ta päriselt tahab, te lepite kokku, mitu tärni iga preemia maksab. Tema saab kaasa rääkida, sina saad jaa-sõna, millega te mõlemad rahul olete. Pool lõbust algab juba siit.</p>
+        <div class="shot"><img src="peretarnid/03_rewards.jpg" alt="Pere preemiate nimekiri: 30 min telefoniaega 5 tärni eest, vali tänane õhtusöök 10 tärni eest, filmiõhtu 30 tärni eest" loading="lazy"></div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h3>Püüa hea hetk kinni.</h3>
+        <p>Üks vajutus, et anda paar tärni. Kirjuta, mille eest see oli, näiteks „aitas väikest õde koduste tööde tegemisel". Sinu laps näeb tärni ja sinu sõnumit, ning hea hetk on nüüd meeles, mitte hommikuks ununenud.</p>
+        <div class="shot"><img src="peretarnid/02_add_stars.jpg" alt="Anna tärne lapsele Kalle ekraan, mitu tärni ja mille eest, suur roheline Kinnita nupp" loading="lazy"></div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h3>Tähistage eesmärgi lähenemist.</h3>
+        <p>Sinu lapse telefon näitab iga preemia juures progressibaari. Tema kontrollib, sina küsid „kui lähedal sa oled filmiõhtule?" Vestlus algab ise, ilma nõudmiseta.</p>
+        <div class="shot"><img src="peretarnid/05_child_rewards.jpg" alt="Minu preemiad lapse telefonis: 30 min telefoniaega, vali tänane õhtusöök, filmiõhtu progressibaariga 3 / 30" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TWO VIEWS -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow">Kaks vaadet, üks pere</span>
+    <h2>Mõlemad telefonid. <span class="accent">Üks pere.</span></h2>
+    <p class="lead">Vanema telefonid annavad ja peavad arvet. Lapse telefonid tähistavad edusamme ja küsivad preemiaid. Mõlemal poolel on oma poole loo jaoks õiged nupud, ja need kohtuvad keskel.</p>
+
+    <div class="two-up">
+      <div class="view">
+        <h3>Vanema vaade</h3>
+        <p class="sub">Lisa tärne, vaata ajalugu, sünkroni perega. Kõik kahe vajutusega.</p>
+        <div class="shot"><img src="peretarnid/01_parent_main.jpg" alt="Vanema avaleht Kallega, plussi ja miinuse tärni nupud, ajalugu, sünki nupp all" loading="lazy"></div>
+      </div>
+      <div class="view">
+        <h3>Lapse vaade</h3>
+        <p class="sub">Tema tärnid, tema preemiad, tema oma progress, mida jälgida.</p>
+        <div class="shot"><img src="peretarnid/04_child_main.jpg" alt="Kalle tärnid ekraan, suur tärnide arv, Tegin midagi, Lunasta preemia, Minu ajalugu nupud" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVACY -->
+<section class="alt">
+  <div class="wrap">
+    <div class="privacy-block">
+      <div>
+        <span class="eyebrow" style="color: var(--gold);">Privaatsus on sisse ehitatud</span>
+        <h2>Ei kontosid. Ei pilve. Ei jälgimist. Mitte kunagi.</h2>
+        <p class="lead">Peretärnid ei küsi sinu e-posti, lapse nime serverisse ega midagi muud. Telefonid sünkronivad omavahel otse Bluetoothi kaudu või skannides QR-koodi teise telefoni ekraanil. Sinu andmed ei lahku pere telefonidest.</p>
+        <div class="pchips">
+          <span class="pchip">Ei registreerimist</span>
+          <span class="pchip">Töötab offline</span>
+          <span class="pchip">Ei reklaame</span>
+          <span class="pchip">Ei analüütikat</span>
+          <span class="pchip">Sisseostudeta</span>
+        </div>
+      </div>
+      <div>
+        <div class="phone-frame">
+          <img src="peretarnid/06_sync.jpg" alt="Sünkroni perega ekraan: Sünk Bluetoothi kaudu soovitatud variandina ja QR-kood varuvariandina, mis töötab ilma Bluetoothita" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section>
+  <div class="narrow">
+    <span class="eyebrow">Mis on sees</span>
+    <h2>Kõik mida vajad. <span class="accent">Midagi liigset pole.</span></h2>
+    <ul class="features">
+      <li><strong>Preemiad valitud koos.</strong> Istuge oma lapsega maha ja leppige kokku, mitu tärni iga preemia väärt on. Tema mõte, sinu arv, mõlemad rahul.</li>
+      <li><strong>Vanemad vajutavad tärnide lisamiseks või vähendamiseks.</strong> Vali number, kirjuta põhjus. Põhjus näidatakse ka lapsele, et hea hetk jääks meelde.</li>
+      <li><strong>Lapsed lunastavad tärne preemiate vastu, mille te koos valisite.</strong> Päris preemia, kokku lepitud päriselus, antakse ühe vajutusega.</li>
+      <li><strong>Telefonid sünkronivad otse Bluetoothi või QR-koodi kaudu.</strong> Ei ruuterit, ei internetti, ei serverit.</li>
+      <li><strong>Kogu jagatud ajalugu.</strong> Vaata, mis teenitud, millal ja mille eest. Suurepärane „mäletad kui..." hetkede jaoks hiljem.</li>
+      <li><strong>Ema ja isa mõlemad osalevad.</strong> Mitu vanema telefoni on toetatud. Kes hea hetke esimesena näeb, see tärni annab.</li>
+      <li><strong>Ei kontosid. Ei reklaame. Ei andmete kogumist.</strong> Ühekordne <strong>€1.49</strong>.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="alt">
+  <div class="narrow">
+    <div class="final-cta">
+      <h2>Jah, just seda sa otsisidki.</h2>
+      <p class="lead" style="margin: 0 auto 8px;">Valige preemiad koos. Püüdke head hetked kinni. Tähistage võite koos perena.</p>
+      <p class="price-row">Ühekordne <strong>€1.49</strong> · Tellimusi pole · Reklaame pole · Töötab igas Androidi telefonis</p>
+      <a class="gp-btn" href="https://play.google.com/store/apps/details?id=ee.haide.peretarnid">
+        <svg class="gp-icon" viewBox="0 0 512 512" aria-hidden="true">
+          <path fill="#EA4335" d="M325.3 234.3L104.6 13l280.8 161-60.1 60.3z"/>
+          <path fill="#FBBC04" d="M385.4 174L104.6 13c-5.2-3-9.9-3.5-13.4-2.1l229.7 229.7 64.5-66.6z"/>
+          <path fill="#34A853" d="M91.2 10.9c-3.5 1.4-6.5 4.4-8.5 8.6V492.5c2 4.2 5 7.2 8.5 8.6l229.7-249.6L91.2 10.9z"/>
+          <path fill="#4285F4" d="M325.3 277.7L104.6 499l280.8-161-60.1-60.3z"/>
+        </svg>
+        <span class="gp-label"><small>LAE ALLA</small><span>Google Play</span></span>
+      </a>
+      <div class="fb-explainer">
+        <span class="fb-icon">f</span><strong>Miks veebileht, mitte otselink?</strong> Facebooki reklaamid ei tohi Google Play äppi otse avada, seega saadame sind kõigepealt siia. Ülemine nupp viib sind otse Peretärnide lehele Google Plays, kus saad äpi ühe vajutusega installida.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="narrow">
+    <span class="eyebrow">Kiired küsimused</span>
+    <h2>Asjad, mida pered tavaliselt küsivad.</h2>
+
+    <details class="faq">
+      <summary>Kas mu laps saab preemiate üle kaasa rääkida?</summary>
+      <p>Jah, see ongi mõte. Peretärnid töötab kõige paremini siis, kui sina ja sinu laps lepite preemiad koos kokku, nagu väike perelepe. Sa kirjutad need korra sisse ja need jäävad alles. Lapsed tunnevad, et neid kuulatakse, vanemad tunnevad end vähem nagu kohtunikud, ja äpp jääb tagaplaanile.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Kas see on viis lapse kontrollimiseks?</summary>
+      <p>Ei. Pole jälgimist, pole ekraaniaja blokeerimist, pole „trahve", pole tüütavaid teateid. Peretärnid teeb ainult seda, milles teie lapsega kokku lepite, nagu paber-tabel külmkapil vanasti tegi. See on ühine väike mäng, mitte jälgimistööriist.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Mida see äpp EI tee?</summary>
+      <p>Peretärnid on tärnitabel, mitte vanemliku kontrolli tööriist. Et sa täpselt teaksid, mis sa saad:</p>
+      <ul>
+        <li>See ei blokeeri ega piira ekraaniaega.</li>
+        <li>See ei lukusta lapse telefoni.</li>
+        <li>See ei piira, peida ega filtreeri ühtegi teist äppi.</li>
+        <li>See ei jälgi lapse asukohta.</li>
+        <li>See ei jälgi sõnumeid, kõnesid ega veebilehitsemist.</li>
+        <li>See ei saada ühtegi andmebitti serverisse. Äpp ei saa üldse internetti.</li>
+        <li>See ei tüüta sinu last teadetega.</li>
+      </ul>
+      <p>Sina ja sinu pere otsustate, mida tärn väärt on, ja päris preemiad (lisaaeg telefonis sinu enda vanemliku kontrolli kaudu, filmiõhtu, jäätis) annate äpi väliselt. Äpi ainus ülesanne on pidada arvet, ausalt ja nähtavalt, et ülejäänud vestlus saaks toimuda nii, nagu vestlused peavad toimuma.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Kas on olemas tasuta versioon?</summary>
+      <p>Ei, ja sellel on põhjus. Reklaame pole, sisseoste pole, jälgimist pole. €1.49 on see, mis maksab et äpp saaks niimoodi jääda. Maksa korra, kasuta nii kaua, kui sul on Androidi telefon.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Kas vajab internetiühendust?</summary>
+      <p>Ei. Peretärnid töötab täielikult offline. Sama pere telefonid sünkronivad omavahel otse Bluetoothi kaudu või skannides QR-koodi, mida teise telefoni ekraanil näidatakse.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Mis siis, kui mu laps kaotab oma telefoni või see läheb katki?</summary>
+      <p>Sea laps uuesti uuele telefonile üles. Vanema telefon näitab pere QR-koodi, lapse telefon skannib selle, ja tärnid taastuvad järgmise sünki ajal.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Mitu last saan lisada?</summary>
+      <p>Kuni kaheksa last pere kohta. Igaühel oma värv, oma tärnide kokku ja oma ajalugu.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Kas töötab iPhone'is?</summary>
+      <p>Veel mitte. Peretärnid on ainult Androidile. Kui pere üks vanem kasutab iPhone'i, kirjuta meile aadressile appshaide@gmail.com. See aitab otsustada, mida järgmisena ehitada.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Kas mu laps näeb reklaame või jälgitakse teda?</summary>
+      <p>Ei. Äpis pole kuskil reklaame, pole analüütikat, pole kolmandate osapoolte SDK-sid. Äpp ei küsi isegi interneti luba. Lapsed näevad ainult oma tärne, oma preemiaid ja sinu kirjutatud kenu märkmeid.</p>
+    </details>
+
+    <details class="faq">
+      <summary>Mis vanusele see äpp on?</summary>
+      <p>Töötab kõige paremini, kui sinu laps oskab preemiate nimesid lugeda. Tavaliselt umbes viiendast-kuuendast eluaastast varajaste teismeiganaani, aga ka peredes mitme erivanuselise lapsega sobib see hästi. Iga laps saab oma värvi ja oma eesmärgid.</p>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <p>
+    <a href="peretarnid_privacy_policy.html">Privaatsuspoliitika</a> &middot;
+    <a href="/">Rohkem äppe HaideApps'ilt</a> &middot;
+    <a href="mailto:appshaide@gmail.com">appshaide@gmail.com</a>
+  </p>
+  <p>© 2026 HaideApps · Peretärnid teeb Ragnar Häide</p>
+</footer>
+
+</body>
+</html>
