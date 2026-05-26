@@ -334,6 +334,33 @@
     font-style: italic;
   }
 
+  /* Gameplay video */
+  .video-card {
+    max-width: 360px;
+    margin: 0 auto;
+    background: rgba(8,2,12,0.65);
+    border: 1px solid rgba(136,8,26,0.45);
+    border-radius: 16px;
+    padding: 12px;
+    box-shadow: 0 22px 48px rgba(0,0,0,0.65);
+  }
+  .video-card video {
+    width: 100%;
+    display: block;
+    border-radius: 10px;
+    background: #000;
+  }
+  .video-caption {
+    text-align: center;
+    color: var(--blood-bright);
+    font-family: Georgia, serif;
+    font-style: italic;
+    margin: 24px auto 0;
+    font-size: 1em;
+    max-width: 420px;
+    padding: 0 24px;
+  }
+
   /* Hall of pain block */
   .hop {
     display: grid;
@@ -522,6 +549,24 @@
         <p>Miss it and the same mosquito flies off, then circles back, angrier. Ignore it long enough and it lands. Five seconds of bite-vibration. Then a new one spawns.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- GAMEPLAY VIDEO -->
+<section>
+  <div class="section-head">
+    <span class="eyebrow">Footage from the dark</span>
+    <h2 class="section-title horror-title">See the dark.</h2>
+    <p class="section-sub horror-sub">Hear the hunt.</p>
+  </div>
+  <div class="wrap">
+    <div class="video-card">
+      <video controls preload="metadata" poster="pitchblack/gameplay-poster.jpg" playsinline>
+        <source src="pitchblack/gameplay.mp4" type="video/mp4">
+        Your browser does not support video playback. Get the game on Google Play.
+      </video>
+    </div>
+    <p class="video-caption">Headphones on. The whole game is in the audio.</p>
   </div>
 </section>
 
